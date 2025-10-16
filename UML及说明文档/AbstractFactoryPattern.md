@@ -1,6 +1,6 @@
-# Abstract Factory Pattern UML Class Diagram
+# 抽象工厂模式 UML 类图
 
-## Class Diagram
+## 类图
 
 ```mermaid
 classDiagram
@@ -54,7 +54,7 @@ classDiagram
         +getReviewCount(dishId : int) : int
     }
 
-    note for DefaultDAOFactory "Singleton implementation\nof the abstract factory"
+    note for DefaultDAOFactory "抽象工厂的单例实现"
 
     DAOFactory <|-- DefaultDAOFactory : implements
     DishDAO <|-- DishDAOImpl : implements
@@ -65,24 +65,24 @@ classDiagram
     DefaultDAOFactory ..> DishCommentDAOImpl : creates
 ```
 
-## Key Characteristics
+## 主要特点
 
-1. **Abstract Factory (DAOFactory)**: Declares an interface for operations that create abstract product objects (DishDAO, DishCommentDAO).
+1. **抽象工厂 (DAOFactory)**: 声明用于创建抽象产品对象的操作接口 (DishDAO, DishCommentDAO)。
 
-2. **Concrete Factory (DefaultDAOFactory)**: Implements the operations to create concrete product instances (DishDAOImpl, DishCommentDAOImpl).
+2. **具体工厂 (DefaultDAOFactory)**: 实现操作以创建具体的产品实例 (DishDAOImpl, DishCommentDAOImpl)。
 
-3. **Abstract Product (DishDAO, DishCommentDAO)**: Declares an interface for a type of product object.
+3. **抽象产品 (DishDAO, DishCommentDAO)**: 声明一种产品对象的接口。
 
-4. **Concrete Product (DishDAOImpl, DishCommentDAOImpl)**: Defines a product object to be created by the corresponding concrete factory and implements the Abstract Product interface.
+4. **具体产品 (DishDAOImpl, DishCommentDAOImpl)**: 定义由相应具体工厂创建的产品对象，并实现抽象产品接口。
 
-## Participants
+## 参与者
 
-- **AbstractFactory (DAOFactory)**: Declares a method for creating each of the abstract products.
-- **ConcreteFactory (DefaultDAOFactory)**: Implements the operations to create concrete product objects.
-- **AbstractProduct (DishDAO, DishCommentDAO)**: Declares an interface for a type of product object.
-- **ConcreteProduct (DishDAOImpl, DishCommentDAOImpl)**: Defines a product object to be created by the corresponding concrete factory and implements the AbstractProduct interface.
+- **抽象工厂 (DAOFactory)**: 声明创建每种抽象产品的方法。
+- **具体工厂 (DefaultDAOFactory)**: 实现操作以创建具体的产品对象。
+- **抽象产品 (DishDAO, DishCommentDAO)**: 声明一种产品对象的接口。
+- **具体产品 (DishDAOImpl, DishCommentDAOImpl)**: 定义由相应具体工厂创建的产品对象，并实现抽象产品接口。
 
-## Collaborations
+## 协作关系
 
-- Normally a single instance of a ConcreteFactory class is created at runtime, and this concrete factory creates all the different product objects for a specific product family.
-- The client uses only interfaces declared by AbstractFactory and AbstractProduct classes.
+- 通常在运行时创建一个具体工厂类的单个实例，该具体工厂为特定产品族创建所有不同的产品对象。
+- 客户端仅使用抽象工厂和抽象产品类声明的接口。

@@ -1,6 +1,6 @@
-# Facade Pattern UML Class Diagram
+# 外观模式 UML 类图
 
-## Class Diagram
+## 类图
 
 ```mermaid
 classDiagram
@@ -103,7 +103,7 @@ classDiagram
         +login(username : String, password : String) : Admin
     }
 
-    note for CanteenFacade "Provides a unified interface\nto the complex subsystem\nof data access objects"
+    note for CanteenFacade "为复杂的子系统提供统一接口\n数据访问对象"
 
     CanteenFacade --> DishDAO : uses
     CanteenFacade --> DishCommentDAO : uses
@@ -115,19 +115,19 @@ classDiagram
     DishCommentDAO --> DishComment : manages
 ```
 
-## Key Characteristics
+## 主要特点
 
-1. **Facade (CanteenFacade)**: Knows which subsystem classes are responsible for what and delegates client requests to appropriate subsystem objects.
+1. **外观 (CanteenFacade)**: 知道哪些子系统类负责什么，并将客户端请求委托给适当的子系统对象。
 
-2. **Subsystem Classes (DishDAO, DishCommentDAO, BaseDish, DishComment, Student, Admin)**: Implement subsystem functionality and handle work assigned by the Facade object. They don't know about the facade and don't keep references to it.
+2. **子系统类 (DishDAO, DishCommentDAO, BaseDish, DishComment, Student, Admin)**: 实现子系统功能并处理外观对象分配的工作。它们不知道外观的存在，也不保存对外观的引用。
 
-## Participants
+## 参与者
 
-- **Facade (CanteenFacade)**: Knows which subsystem classes are responsible for what and delegates client requests to appropriate subsystem objects.
-- **Subsystem Classes (DishDAO, DishCommentDAO, BaseDish, DishComment, Student, Admin)**: Implement subsystem functionality and handle work assigned by the Facade object.
+- **外观 (CanteenFacade)**: 知道哪些子系统类负责什么，并将客户端请求委托给适当的子系统对象。
+- **子系统类 (DishDAO, DishCommentDAO, BaseDish, DishComment, Student, Admin)**: 实现子系统功能并处理外观对象分配的工作。
 
-## Collaborations
+## 协作关系
 
-- Clients communicate with the subsystem by working through a Facade instance.
-- The facade forwards client requests to appropriate subsystem objects.
-- Subsystem classes don't know about the facade and don't keep references to it.
+- 客户端通过外观实例与子系统进行通信。
+- 外观将客户端请求转发给适当的子系统对象。
+- 子系统类不知道外观的存在，也不保存对外观的引用。

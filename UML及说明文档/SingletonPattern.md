@@ -1,6 +1,6 @@
-# Singleton Pattern UML Class Diagram
+# 单例模式 UML 类图
 
-## Class Diagram
+## 类图
 
 ```mermaid
 classDiagram
@@ -42,28 +42,26 @@ classDiagram
         +createDishCommentDAO() : DishCommentDAO
     }
 
-    note for ApplicationContext "Eager initialization singleton\nThread-safe by design"
 
-    note for DefaultDAOFactory "Eager initialization singleton\nThread-safe by design"
 
     DAOFactory <|.. DefaultDAOFactory : implements
 ```
 
-## Key Characteristics
+## 主要特点
 
-1. **Private Constructor**: Both `ApplicationContext` and `DefaultDAOFactory` have private constructors to prevent external instantiation.
+1. **私有构造函数**: `ApplicationContext` 和 `DefaultDAOFactory` 都具有私有构造函数，以防止外部实例化。
 
-2. **Static Instance**: Each class has a private static final instance member that holds the single instance.
+2. **静态实例**: 每个类都有一个私有的静态最终实例成员，用于保存单个实例。
 
-3. **Public Access Method**: Both classes provide a static `getInstance()` method to access the singleton instance.
+3. **公共访问方法**: 两个类都提供静态的 `getInstance()` 方法来访问单例实例。
 
-4. **Thread Safety**: Uses eager initialization (instantiation at class loading time) which is inherently thread-safe.
+4. **线程安全**: 使用饿汉式初始化（类加载时实例化），天生线程安全。
 
-## Participants
+## 参与者
 
-- **Singleton (ApplicationContext, DefaultDAOFactory)**: Defines an Instance operation that lets clients access its unique instance. May be responsible for creating its own unique instance.
+- **单例 (ApplicationContext, DefaultDAOFactory)**: 定义一个 Instance 操作，让客户端能够访问其唯一实例。可能负责创建自己的唯一实例。
 
-## Collaborations
+## 协作关系
 
-- `ApplicationContext` collaborates with `DAOFactory` to initialize the DAO objects and `CanteenFacade`.
-- `DefaultDAOFactory` implements the `DAOFactory` interface to create concrete DAO instances.
+- `ApplicationContext` 与 `DAOFactory` 协作，用于初始化 DAO 对象和 `CanteenFacade`。
+- `DefaultDAOFactory` 实现 `DAOFactory` 接口来创建具体的 DAO 实例。
