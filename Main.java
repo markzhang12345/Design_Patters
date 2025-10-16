@@ -7,6 +7,7 @@ import factory.DAOFactory;
 import factory.DefaultDAOFactory;
 import menu.MainMenu;
 import utils.DBUtil;
+import utils.PasswordUtil;
 
 /**
  * 食堂管理系统主类
@@ -21,6 +22,9 @@ class Main {
     public static void main(String[] args) {
         // 测试数据库连接
         testDatabaseConnection();
+
+        // 设置默认管理员密码
+        setupDefaultAdminPassword();
 
         System.out.println("食堂管理系统\r\n");
         System.out.println("欢迎使用食堂管理系统，请选择操作：\r\n");
@@ -51,6 +55,37 @@ class Main {
             System.err.println("数据库连接失败：" + e.getMessage());
             e.printStackTrace();
             System.exit(1);
+        }
+    }
+
+    /**
+     * 设置默认管理员密码
+     * 如果管理员密码为空，则设置为"admin"
+     */
+    private static void setupDefaultAdminPassword() {
+        try (Connection conn = DBUtil.getConnection()) {
+            // 检查管理员账户的密码是否为空
+            String checkSql = "SELECT password FROM users WHERE username = 'admin' AND role = 'admin'";
+            try (var ps = conn.prepareStatement(checkSql);
+                 var rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    String currentPassword = rs.getString("password");
+                    // 如果密码为空，则设置为"admin"并进行哈希处理
+                    if (currentPassword == null || currentPassword.isEmpty()) {
+                        String hashedPassword = PasswordUtil.hashPassword("admin");
+                        String updateSql = "UPDATE users SET password = ? WHERE username = 'admin' AND role = 'admin'";
+                        try (var updatePs = conn.prepareStatement(updateSql)) {
+                            updatePs.setString(1, hashedPassword);
+                            updatePs.executeUpdate();
+                            System.out.println("管理员密码已初始化为 'admin'");
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("设置默认管理员密码失败：" + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

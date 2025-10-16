@@ -50,11 +50,11 @@ CREATE TABLE
         FOREIGN KEY (user_id) REFERENCES users (user_id)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
--- 插入初始管理员账户
+-- 插入初始管理员账户（密码将在程序启动时设置为admin）
 INSERT INTO
     users (username, password, real_name, role)
 VALUES
-    ('admin', 'admin', '系统管理员', 'admin');
+    ('admin', '', '系统管理员', 'admin');
 
 -- 插入示例分类
 INSERT INTO
