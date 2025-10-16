@@ -6,7 +6,7 @@
 
 - JDK 8 或以上（建议 11+）
 - 已安装数据库与对应 JDBC 驱动（驱动 JAR 放在 `utils/jar/` 下）
-- macOS（本文命令为 macOS/Linux 风格，Windows 请将 classpath 分隔符 `:` 改为 `;`）
+- macOS（本文命令为 macOS/Linux 风格，Windows 请将 Makefile 分隔符 `:` 改为 `;`）
 
 ## 快速开始
 
@@ -15,17 +15,10 @@
 - 编辑 `utils/db.config`，填写数据库连接信息（如驱动类、URL、用户名、密码等）。
 - 使用 `utils/init.sql` 在目标数据库中初始化所需表结构/基础数据（根据你的数据库客户端执行）。
 
-2. 编译项目（在项目根目录执行）
+2. 编译并运行项目（在项目根目录执行）
 
 ```bash
-mkdir -p out
-javac -encoding UTF-8 -d out -cp "utils/jar/*" $(find . -name "*.java")
-```
-
-3. 运行
-
-```bash
-java -cp "out:utils/jar/*" Main
+make all
 ```
 
 程序启动后会先测试数据库连接，随后进入主菜单进行交互；退出时会打印“感谢使用食堂管理系统，再见！”并调用 `System.exit(0)`。
@@ -68,8 +61,6 @@ java -cp "out:utils/jar/*" Main
 - Command（命令）
   - MenuCommand：将菜单选项封装为命令对象，解耦菜单呈现与执行逻辑，便于扩展与测试。
 
-说明：DAO 属于企业常用模式（非 GoF），与抽象工厂/外观模式协作以实现解耦。
-
 ## 运行流程概览
 
 1. Main.main
@@ -78,9 +69,3 @@ java -cp "out:utils/jar/*" Main
    - 构建并显示 `MainMenu`，进入交互循环。
 2. 菜单层通过 `ApplicationContext` 和 `CanteenFacade/DAO` 执行业务；各菜单项封装为 `MenuCommand`。
 3. 用户选择“退出”或流程终止后，打印告别语并退出进程。
-
-## 常见问题
-
-- 无法连接数据库：检查 `utils/db.config` 是否与实际数据库匹配；确认 JDBC 驱动 JAR 已放入 `utils/jar/` 且纳入了运行时 classpath。
-- 编译找不到类：确保在项目根目录执行命令；`-cp "utils/jar/*"` 与 `-d out` 参数正确；类路径在运行阶段为 `out:utils/jar/*`。
-- Windows 运行：将命令中的 `:` 替换为 `;`，其余相同。
