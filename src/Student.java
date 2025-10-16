@@ -72,13 +72,16 @@ public class Student extends BaseUser {
             return false;
         }
 
+        // 使用PasswordUtil加密密码
+        String hashedPassword = utils.PasswordUtil.hashPassword(password);
+
         String sql = "INSERT INTO users (username, password, real_name, role) VALUES (?, ?, ?, 'customer')";
 
         try (Connection conn = DBUtil.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(2, hashedPassword);
             ps.setString(3, realName);
 
             int result = ps.executeUpdate();
@@ -98,23 +101,28 @@ public class Student extends BaseUser {
      * @return 登录成功返回Student对象，否则返回null
      */
     public static Student login(String username, String password) {
-        String sql = "SELECT user_id, username, password, real_name FROM users WHERE username = ? AND password = ? AND role = 'customer'";
+        String sql = "SELECT user_id, username, password, real_name FROM users WHERE username = ? AND role = 'customer'";
 
         try (Connection conn = DBUtil.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
-            ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                Student student = new Student();
-                student.setId(rs.getInt("user_id"));
-                student.setUsername(rs.getString("username"));
-                student.setPassword(rs.getString("password"));
-                student.setRealName(rs.getString("real_name"));
-                return student;
+                // 获取存储的哈希密码
+                String storedHashedPassword = rs.getString("password");
+
+                // 使用PasswordUtil验证密码
+                if (utils.PasswordUtil.verifyPassword(password, storedHashedPassword)) {
+                    Student student = new Student();
+                    student.setId(rs.getInt("user_id"));
+                    student.setUsername(rs.getString("username"));
+                    student.setPassword(storedHashedPassword);
+                    student.setRealName(rs.getString("real_name"));
+                    return student;
+                }
             }
 
         } catch (SQLException e) {

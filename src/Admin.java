@@ -35,22 +35,27 @@ public class Admin extends BaseUser {
      * @return 登录成功返回Admin对象，否则返回null
      */
     public static Admin login(String username, String password) {
-        String sql = "SELECT user_id, username, password, real_name FROM users WHERE username = ? AND password = ? AND role = 'admin'";
+        String sql = "SELECT user_id, username, password, real_name FROM users WHERE username = ? AND role = 'admin'";
 
         try (Connection conn = DBUtil.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
-            ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                Admin admin = new Admin();
-                admin.setId(rs.getInt("user_id"));
-                admin.setUsername(rs.getString("username"));
-                admin.setPassword(rs.getString("password"));
-                return admin;
+                // 获取存储的哈希密码
+                String storedHashedPassword = rs.getString("password");
+
+                // 使用PasswordUtil验证密码
+                if (utils.PasswordUtil.verifyPassword(password, storedHashedPassword)) {
+                    Admin admin = new Admin();
+                    admin.setId(rs.getInt("user_id"));
+                    admin.setUsername(rs.getString("username"));
+                    admin.setPassword(storedHashedPassword);
+                    return admin;
+                }
             }
 
         } catch (SQLException e) {

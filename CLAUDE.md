@@ -42,15 +42,6 @@ CLAUDE.md
 
 构建与运行命令
 
-编译
-
-mkdir -p out
-javac -encoding UTF-8 -d out -cp "utils/jar/_" $(find . -name "_.java")
-
-执行
-
-java -cp "out:utils/jar/\*" Main
-
 使用 Makefile
 
 make # 编译并运行
