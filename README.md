@@ -34,14 +34,14 @@ make all
 - factory/
   - DAOFactory：抽象工厂接口，统一创建各类 DAO。
   - DefaultDAOFactory：DAOFactory 的默认实现（单例）。
-- DAO/  
-  DAO 接口与实现（如 DishDAO、DishCommentDAO 及其实现类），封装数据库访问；通常通过 `utils/DBUtil` 获取连接。
+- DAO/
+  - DAO 接口与实现（如 DishDAO、DishCommentDAO 及其实现类），封装数据库访问；通常通过 `utils/DBUtil` 获取连接。
 - menu/
   - AbstractMenu：菜单模板，定义菜单显示与输入处理骨架。
   - MainMenu、StudentAuthMenu、StudentMenu、DishReviewMenu、AdminMenu：具体菜单。
   - MenuCommand：命令对象，将菜单项行为封装为可执行命令。
-- src/  
-  领域模型（如 Admin、Student、BaseDish、DishComment 等）。
+- src/
+  - 领域模型（如 Admin、Student、BaseDish、DishComment 等）。
 - utils/
   - DBUtil：数据库工具类（基于 `db.config` 读取配置并获取连接）。
   - db.config：数据库连接配置。
